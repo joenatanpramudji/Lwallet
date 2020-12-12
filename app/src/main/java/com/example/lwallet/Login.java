@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class Login extends AppCompatActivity {
 
@@ -15,10 +18,21 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         ImageButton loginButton = (ImageButton) findViewById(R.id.buttonLg);
+        EditText inputUsername = (EditText) findViewById(R.id.usernameInputText);
+        EditText inputPassword = (EditText) findViewById(R.id.passwordInputtext);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startMainMenuActivity();
+
+                if(inputUsername.getText().toString().equals("") || inputPassword.getText().toString().equals(""))
+                {
+                    Snackbar alert = Snackbar.make(v, "Please enter your username or password!", Snackbar.LENGTH_LONG);
+                    alert.show();
+                }
+                else
+                {
+                   startMainMenuActivity();
+                }
             }
         });
 

@@ -4,4 +4,50 @@
     <string name="title_home">Home</string>
     <string name="title_scan">Scan</string>
     <string name="title_profile">Profile</string>
+
+    <string-array name="historyItems">
+        <item>Sunday, November 8 2020\n
+              Top Up\n
+              Amount : RM 100\n
+              Method : Credit Card\n</item>
+        <item>Sunday, November 8 2020\n
+              Top Up\n
+              Amount : RM 100\n
+              Method : Credit Card\n</item><item>Sunday, November 8 2020\n
+              Top Up\n
+              Amount : RM 100\n
+              Method : Credit Card\n</item><item>Sunday, November 8 2020\n
+              Top Up\n
+              Amount : RM 100\n
+              Method : Credit Card\n</item><item>Sunday, November 8 2020\n
+              Top Up\n
+              Amount : RM 100\n
+              Method : Credit Card\n</item><item>Sunday, November 8 2020\n
+              Top Up\n
+              Amount : RM 100\n
+              Method : Credit Card\n</item><item>Sunday, November 8 2020\n
+              Top Up\n
+              Amount : RM 100\n
+              Method : Credit Card\n</item><item>Sunday, November 8 2020\n
+              Top Up\n
+              Amount : RM 100\n
+              Method : Credit Card\n</item><item>Sunday, November 8 2020\n
+              Top Up\n
+              Amount : RM 100\n
+              Method : Credit Card\n</item><item>Sunday, November 8 2020\n
+              Top Up\n
+              Amount : RM 100\n
+              Method : Credit Card\n</item><item>Sunday, November 8 2020\n
+              Top Up\n
+              Amount : RM 100\n
+              Method : Credit Card\n</item><item>Sunday, November 8 2020\n
+              Top Up\n
+              Amount : RM 100\n
+              Method : Credit Card\n</item><item>Sunday, November 8 2020\n
+              Top Up\n
+              Amount : RM 100\n
+              Method : Credit Card\n</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

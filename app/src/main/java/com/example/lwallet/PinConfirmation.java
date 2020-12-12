@@ -2,14 +2,20 @@ package com.example.lwallet;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.speech.RecognizerIntent;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class PinConfirmation extends AppCompatActivity {
-
+    private final int REQ_CODE = 100;
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +26,19 @@ public class PinConfirmation extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                success();
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "NEED TO SPEAK");
+                try {
+                    startActivityForResult(intent, REQ_CODE);
+                }catch (ActivityNotFoundException a)
+                {
+                    Toast.makeText(getApplicationContext(),
+                            "Sorry your device not supported",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
 
@@ -105,5 +123,22 @@ public class PinConfirmation extends AppCompatActivity {
     private void success() {
         Intent intent = new Intent(this, Success.class);
         startActivity(intent);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQ_CODE: {
+                if (resultCode == RESULT_OK && null != data) {
+                    ArrayList result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    if(result.get(0).toString().equalsIgnoreCase("hello"))
+                    {
+                        success();
+                    }
+                    //textView.setText(result.get(0).toString());
+                }
+                break;
+            }
+        }
     }
 }
