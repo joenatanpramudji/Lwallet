@@ -2,6 +2,7 @@ package com.example.lwallet;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +12,13 @@ import android.widget.TextView;
 import android.speech.RecognizerIntent;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 
 public class PinConfirmation extends AppCompatActivity {
     private final int REQ_CODE = 100;
-    TextView textView;
+    //TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,6 +130,7 @@ public class PinConfirmation extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         switch (requestCode) {
             case REQ_CODE: {
                 if (resultCode == RESULT_OK && null != data) {
@@ -134,6 +138,11 @@ public class PinConfirmation extends AppCompatActivity {
                     if(result.get(0).toString().equalsIgnoreCase("hello"))
                     {
                         success();
+                    }
+                    else
+                    {
+                        Snackbar alert = Snackbar.make(findViewById(R.id.pinConfirmID).getRootView(), "Voice mismatch!", Snackbar.LENGTH_LONG);
+                        alert.show();
                     }
                     //textView.setText(result.get(0).toString());
                 }

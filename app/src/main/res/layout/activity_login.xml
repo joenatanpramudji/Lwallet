@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main"
+
     tools:context=".Login">
 
     <ImageView
@@ -47,7 +48,7 @@
         android:layout_width="284dp"
         android:layout_height="104dp"
         android:layout_marginBottom="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLg"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/rectangle_50" />
@@ -175,7 +176,7 @@
         app:srcCompat="@drawable/arrow" />
 
     <ImageButton
-        android:id="@+id/buttonLg"
+        android:id="@+id/buttonRg"
         android:layout_width="235dp"
         android:layout_height="69dp"
         android:layout_marginBottom="56dp"
@@ -191,10 +192,10 @@
         android:id="@+id/imageView6"
         android:layout_width="63dp"
         android:layout_height="37dp"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonLg"
-        app:layout_constraintEnd_toEndOf="@+id/buttonLg"
-        app:layout_constraintStart_toStartOf="@+id/buttonLg"
-        app:layout_constraintTop_toTopOf="@+id/buttonLg"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonRg"
+        app:layout_constraintEnd_toEndOf="@+id/buttonRg"
+        app:layout_constraintStart_toStartOf="@+id/buttonRg"
+        app:layout_constraintTop_toTopOf="@+id/buttonRg"
         app:srcCompat="@drawable/log_in" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

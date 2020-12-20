@@ -32,7 +32,7 @@ public class EnterAmount extends AppCompatActivity {
             public void onClick(View v) {
                 if(pin.getText() != "0")
                 {
-                    pin.setText("RM"+ pin.getText() + "0");
+                    pin.setText(pin.getText() + "0");
                 }
             }
         });
@@ -40,7 +40,7 @@ public class EnterAmount extends AppCompatActivity {
         numberButtons[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText("RM"+ pin.getText() + "1");
+                pin.setText(pin.getText() + "1");
 
             }
         });
@@ -48,7 +48,7 @@ public class EnterAmount extends AppCompatActivity {
         numberButtons[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText("RM"+ pin.getText() + "2");
+                pin.setText(pin.getText() + "2");
 
             }
         });
@@ -56,49 +56,49 @@ public class EnterAmount extends AppCompatActivity {
         numberButtons[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText("RM"+ pin.getText() + "3");
+                pin.setText(pin.getText() + "3");
             }
         });
         numberButtons[4] = (ImageButton) findViewById(R.id.button4_e);
         numberButtons[4].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText("RM"+ pin.getText() + "4");
+                pin.setText( pin.getText() + "4");
             }
         });
         numberButtons[5] = (ImageButton) findViewById(R.id.button5_e);
         numberButtons[5].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText("RM"+ pin.getText() + "5");
+                pin.setText( pin.getText() + "5");
             }
         });
         numberButtons[6] = (ImageButton) findViewById(R.id.button6_e);
         numberButtons[6].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText("RM"+ pin.getText() + "6");
+                pin.setText( pin.getText() + "6");
             }
         });
         numberButtons[7] = (ImageButton) findViewById(R.id.button7_e);
         numberButtons[7].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText("RM"+ pin.getText() + "7");
+                pin.setText( pin.getText() + "7");
             }
         });
         numberButtons[8] = (ImageButton) findViewById(R.id.button8_e);
         numberButtons[8].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText("RM"+ pin.getText() + "8");
+                pin.setText( pin.getText() + "8");
             }
         });
         numberButtons[9] = (ImageButton) findViewById(R.id.button9_e);
         numberButtons[9].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText("RM"+ pin.getText() + "9");
+                pin.setText( pin.getText() + "9");
             }
         });
     }

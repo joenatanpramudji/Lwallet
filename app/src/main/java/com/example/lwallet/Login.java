@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+
 import com.google.android.material.snackbar.Snackbar;
 
 public class Login extends AppCompatActivity {
@@ -17,7 +18,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        ImageButton loginButton = (ImageButton) findViewById(R.id.buttonLg);
+        ImageButton loginButton = (ImageButton) findViewById(R.id.buttonRg);
         EditText inputUsername = (EditText) findViewById(R.id.usernameInputText);
         EditText inputPassword = (EditText) findViewById(R.id.passwordInputtext);
         loginButton.setOnClickListener(new View.OnClickListener() {
