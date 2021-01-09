@@ -12,9 +12,10 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="166dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/half_circle_top_01" />
 
@@ -65,7 +66,7 @@
         app:srcCompat="@drawable/half_circle__bottom__01" />
 
     <RadioButton
-        android:id="@+id/radioButton"
+        android:id="@+id/rememberButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -155,6 +156,7 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPersonName"
+        android:password="true"
         android:textAlignment="textStart"
         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="@+id/imageView4"

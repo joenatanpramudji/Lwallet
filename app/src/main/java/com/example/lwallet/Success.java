@@ -18,13 +18,16 @@ public class Success extends AppCompatActivity {
         buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backToHome();
+                Intent intent = getIntent();
+
+                backToHome(intent.getStringExtra("Username"));
             }
         });
     }
 
-    private void backToHome() {
+    private void backToHome(String username) {
         Intent intent = new Intent(this, MainMenu.class);
+        intent.putExtra("username", username);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

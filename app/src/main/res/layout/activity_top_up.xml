@@ -78,86 +78,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:backgroundTint="#00FFFFFF"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
         app:layout_constraintTop_toTopOf="@+id/imageView7"
         app:srcCompat="@drawable/credit_card" />
 
     <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/actor"
-        android:text="Credit Card"
-        android:textColor="@color/main"
-        app:layout_constraintEnd_toEndOf="@+id/buttonTopup"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="@+id/buttonTopup"
-        app:layout_constraintTop_toBottomOf="@+id/buttonTopup" />
-
-    <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="@font/fredoka_one"
         android:text="Choose Top Up Amounts"
         android:textColor="@color/main"
         app:layout_constraintEnd_toEndOf="@+id/buttonTopup"
-        app:layout_constraintHorizontal_bias="0.295"
+        app:layout_constraintHorizontal_bias="0.238"
         app:layout_constraintStart_toStartOf="@+id/buttonTopup"
         app:layout_constraintTop_toBottomOf="@+id/buttonTopup" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/actor"
-        android:text="Paypal"
-        android:textColor="@color/main"
-        app:layout_constraintEnd_toEndOf="@+id/buttonTransfer"
-        app:layout_constraintStart_toStartOf="@+id/buttonTransfer"
-        app:layout_constraintTop_toBottomOf="@+id/buttonTransfer" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/actor"
-        android:text="E-Banking"
-        android:textColor="@color/main"
-        app:layout_constraintEnd_toEndOf="@+id/buttonHistory"
-        app:layout_constraintHorizontal_bias="0.473"
-        app:layout_constraintStart_toStartOf="@+id/buttonHistory"
-        app:layout_constraintTop_toBottomOf="@+id/buttonHistory" />
-
-    <ImageButton
-        android:id="@+id/buttonTransfer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#00FFFFFF"
-        app:layout_constraintEnd_toStartOf="@+id/buttonHistory"
-        app:layout_constraintHorizontal_bias="0.09"
-        app:layout_constraintStart_toEndOf="@+id/buttonTopup"
-        app:layout_constraintTop_toTopOf="@+id/imageView7"
-        app:srcCompat="@drawable/paypal" />
-
-    <ImageButton
-        android:id="@+id/buttonHistory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="#00FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView7"
-        app:srcCompat="@drawable/e_banking" />
 
     <ImageButton
         android:id="@+id/buttonhundred"
@@ -245,8 +183,8 @@
 
     <TextView
         android:id="@+id/textView17"
-        android:layout_width="26dp"
-        android:layout_height="36dp"
+        android:layout_width="35dp"
+        android:layout_height="33dp"
         android:fontFamily="@font/fredoka_one"
         android:text="RM 400"
         android:textAlignment="center"
@@ -259,8 +197,8 @@
 
     <TextView
         android:id="@+id/textView18"
-        android:layout_width="26dp"
-        android:layout_height="36dp"
+        android:layout_width="38dp"
+        android:layout_height="35dp"
         android:fontFamily="@font/fredoka_one"
         android:text="RM 500"
         android:textAlignment="center"
@@ -274,15 +212,14 @@
 
     <TextView
         android:id="@+id/textView19"
-        android:layout_width="26dp"
-        android:layout_height="36dp"
+        android:layout_width="37dp"
+        android:layout_height="34dp"
         android:fontFamily="@font/fredoka_one"
         android:text="RM 600"
         android:textAlignment="center"
         android:textColor="@color/main"
         app:layout_constraintBottom_toBottomOf="@+id/buttonSixHundred"
         app:layout_constraintEnd_toEndOf="@+id/buttonSixHundred"
-        app:layout_constraintHorizontal_bias="0.535"
         app:layout_constraintStart_toStartOf="@+id/buttonSixHundred"
         app:layout_constraintTop_toTopOf="@+id/buttonSixHundred"
         app:layout_constraintVertical_bias="0.463" />
@@ -329,7 +266,50 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.58"
         app:srcCompat="@drawable/top_up_button" />
+
+    <EditText
+        android:id="@+id/creditCardNumber"
+        android:layout_width="203dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="Input Card Number"
+        android:inputType="textPersonName"
+        android:maxLength="16"
+        android:textColor="@color/main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/buttonTopup"
+        app:layout_constraintTop_toTopOf="@+id/imageView7" />
+
+    <EditText
+        android:id="@+id/CCVNumber"
+        android:layout_width="85dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="CCV"
+        android:inputType="textPersonName"
+        android:maxLength="3"
+        android:textColor="@color/main"
+        app:layout_constraintStart_toStartOf="@+id/creditCardNumber"
+        app:layout_constraintTop_toBottomOf="@+id/creditCardNumber" />
+
+    <EditText
+        android:id="@+id/expiryDate"
+        android:layout_width="102dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:ems="10"
+        android:hint="Expiry Date"
+        android:inputType="textPersonName"
+        android:maxLength="3"
+        android:textColor="@color/main"
+        app:layout_constraintEnd_toEndOf="@+id/creditCardNumber"
+        app:layout_constraintTop_toBottomOf="@+id/creditCardNumber" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

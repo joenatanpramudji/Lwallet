@@ -6,7 +6,10 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.speech.RecognizerIntent;
@@ -19,26 +22,64 @@ import java.util.ArrayList;
 public class PinConfirmation extends AppCompatActivity {
     private final int REQ_CODE = 100;
     //TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin_confirmation);
         TextView pin = (TextView) findViewById(R.id.pinCode);
-
+        Connection cn = new Connection();
         ImageButton nextButton = (ImageButton) findViewById(R.id.nextButtonC);
+
+        Bundle statusIntent = getIntent().getExtras();
+
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "NEED TO SPEAK");
-                try {
-                    startActivityForResult(intent, REQ_CODE);
-                }catch (ActivityNotFoundException a)
+                EditText pinCode = (EditText) findViewById(R.id.pinCode);
+                if(pinCode.getText().toString().equals(statusIntent.get("Pin").toString()))
                 {
-                    Toast.makeText(getApplicationContext(),
-                            "Sorry your device not supported",
-                            Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "NEED TO SPEAK");
+
+
+                    try {
+
+                        Log.d("Check status intent", statusIntent.get("Status").toString());
+                        if (statusIntent.get("Status").toString().equals("TopUp"))
+                        {
+                            //Write Data (add)
+
+                            Log.d("Top Up Value is : ", statusIntent.get("TopUp_Value").toString());
+                            Log.d("Top Up Value is : ", statusIntent.get("Username").toString());
+                            //cn.testTopup();
+                            cn.topUp((double)statusIntent.get("TopUp_Value"), statusIntent.get("Username").toString());
+                        }
+                        else if(statusIntent.get("Status").toString().equals("Pay"))
+                        {
+
+                            //Write Data (Min)
+                        }
+                        startActivityForResult(intent, REQ_CODE);
+                    }catch (ActivityNotFoundException a)
+                    {
+                        Toast.makeText(getApplicationContext(),
+                                "Sorry your device not supported",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }
+                else if(pinCode.getText().toString().equals(""))
+                {
+                    Snackbar alert = Snackbar.make(v, "Please insert pin!", Snackbar.LENGTH_LONG);
+                    alert.show();
+                }
+                else
+                {
+                    Snackbar alert = Snackbar.make(v, "Wrong pin!", Snackbar.LENGTH_LONG);
+                    alert.show();
                 }
 
 
@@ -124,18 +165,20 @@ public class PinConfirmation extends AppCompatActivity {
     }
 
     private void success() {
+        Bundle statusIntent = getIntent().getExtras();
         Intent intent = new Intent(this, Success.class);
+        intent.putExtra("Username", statusIntent.get("Username").toString());
         startActivity(intent);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Intent intent = getIntent();
         switch (requestCode) {
             case REQ_CODE: {
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    if(result.get(0).toString().equalsIgnoreCase("hello"))
+                    if(result.get(0).toString().equalsIgnoreCase(intent.getStringExtra("Voice")))
                     {
                         success();
                     }
