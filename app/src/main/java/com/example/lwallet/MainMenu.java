@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -54,7 +55,7 @@ public class MainMenu extends AppCompatActivity {
         btnTransfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDestination();
+                openDestination(intent.getStringExtra("username"), cn.pin, cn.voice);
             }
         });
 
@@ -73,6 +74,23 @@ public class MainMenu extends AppCompatActivity {
                 openProfile();
             }
         });
+
+        ImageButton buttonLogout = (ImageButton) findViewById(R.id.buttonWater);
+        buttonLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+    }
+
+    private void logout() {
+        finish();
+        Login lg = new Login();
+        SharedPreferences pref = getSharedPreferences(lg.PREFS_NAME, MODE_PRIVATE);
+        pref.edit().clear().commit();
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
     }
 
     private void openProfile() {
@@ -85,8 +103,13 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void openDestination() {
+    private void openDestination(String username, int pin, String voice) {
+        Bundle bundle = new Bundle();
+        bundle.putString("Username", username);
+        bundle.putInt("Pin", pin);
+        bundle.putString("Voice", voice);
         Intent intent = new Intent(this, Destination.class);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

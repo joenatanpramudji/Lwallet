@@ -224,7 +224,7 @@
         android:backgroundTint="#00FFFFFF"
         android:ems="10"
         android:inputType="numberPassword"
-        android:maxLength="6"
+        android:maxLength="8"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"

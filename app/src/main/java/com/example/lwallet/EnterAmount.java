@@ -10,18 +10,22 @@ import android.widget.TextView;
 
 public class EnterAmount extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_amount);
 
-        TextView pin = (TextView) findViewById(R.id.amount);
+        TextView amount = (TextView) findViewById(R.id.amount);
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.nextButtonE);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                success();
+
+                Bundle bundle = getIntent().getExtras();
+                success(bundle.get("Username").toString(), Double.parseDouble(amount.getText().toString()), bundle.get("Destination").toString(), Integer.parseInt(bundle.get("Pin").toString()), bundle.get("Voice").toString());
             }
         });
 
@@ -30,9 +34,9 @@ public class EnterAmount extends AppCompatActivity {
         numberButtons[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pin.getText() != "0")
+                if(amount.getText() != "0")
                 {
-                    pin.setText(pin.getText() + "0");
+                    amount.setText(amount.getText() + "0");
                 }
             }
         });
@@ -40,7 +44,7 @@ public class EnterAmount extends AppCompatActivity {
         numberButtons[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText(pin.getText() + "1");
+                amount.setText(amount.getText() + "1");
 
             }
         });
@@ -48,7 +52,7 @@ public class EnterAmount extends AppCompatActivity {
         numberButtons[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText(pin.getText() + "2");
+                amount.setText(amount.getText() + "2");
 
             }
         });
@@ -56,55 +60,64 @@ public class EnterAmount extends AppCompatActivity {
         numberButtons[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText(pin.getText() + "3");
+                amount.setText(amount.getText() + "3");
             }
         });
         numberButtons[4] = (ImageButton) findViewById(R.id.button4_e);
         numberButtons[4].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText( pin.getText() + "4");
+                amount.setText( amount.getText() + "4");
             }
         });
         numberButtons[5] = (ImageButton) findViewById(R.id.button5_e);
         numberButtons[5].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText( pin.getText() + "5");
+                amount.setText( amount.getText() + "5");
             }
         });
         numberButtons[6] = (ImageButton) findViewById(R.id.button6_e);
         numberButtons[6].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText( pin.getText() + "6");
+                amount.setText( amount.getText() + "6");
             }
         });
         numberButtons[7] = (ImageButton) findViewById(R.id.button7_e);
         numberButtons[7].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText( pin.getText() + "7");
+                amount.setText( amount.getText() + "7");
             }
         });
         numberButtons[8] = (ImageButton) findViewById(R.id.button8_e);
         numberButtons[8].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText( pin.getText() + "8");
+                amount.setText( amount.getText() + "8");
             }
         });
         numberButtons[9] = (ImageButton) findViewById(R.id.button9_e);
         numberButtons[9].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText( pin.getText() + "9");
+                amount.setText( amount.getText() + "9");
             }
         });
+
+
+
     }
 
-    private void success() {
+    private void success(String username, double transferAmount, String destination, int pin, String voice) {
         Intent intent = new Intent(this, PinConfirmation.class);
+        intent.putExtra("Username", username);
+        intent.putExtra("Transfer_Amount", transferAmount);
+        intent.putExtra("Status", "Transfer");
+        intent.putExtra("Destination", destination);
+        intent.putExtra("Voice", voice);
+        intent.putExtra("Pin", pin);
         startActivity(intent);
     }
 }

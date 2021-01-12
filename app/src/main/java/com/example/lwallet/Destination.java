@@ -14,13 +14,16 @@ public class Destination extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);
-        TextView pin = (TextView) findViewById(R.id.destinationCode);
+        TextView destination = (TextView) findViewById(R.id.destinationCode);
+
+        Bundle intent = getIntent().getExtras();
+
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.nextButtonD);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                success();
+                success(destination.getText().toString(), intent.get("Username").toString(), Integer.parseInt(intent.get("Pin").toString()), intent.get("Voice").toString());
             }
         });
 
@@ -37,9 +40,9 @@ public class Destination extends AppCompatActivity {
         numberButtons[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pin.getText() != "0")
+                if(destination.getText() != "0")
                 {
-                    pin.setText(pin.getText() + "0");
+                    destination.setText(destination.getText() + "0");
                 }
             }
         });
@@ -47,7 +50,7 @@ public class Destination extends AppCompatActivity {
         numberButtons[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText(pin.getText() + "1");
+                destination.setText(destination.getText() + "1");
 
             }
         });
@@ -55,7 +58,7 @@ public class Destination extends AppCompatActivity {
         numberButtons[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText(pin.getText() + "2");
+                destination.setText(destination.getText() + "2");
 
             }
         });
@@ -63,55 +66,61 @@ public class Destination extends AppCompatActivity {
         numberButtons[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText(pin.getText() + "3");
+                destination.setText(destination.getText() + "3");
             }
         });
         numberButtons[4] = (ImageButton) findViewById(R.id.button4_d);
         numberButtons[4].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText(pin.getText() + "4");
+                destination.setText(destination.getText() + "4");
             }
         });
         numberButtons[5] = (ImageButton) findViewById(R.id.button5_d);
         numberButtons[5].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText(pin.getText() + "5");
+                destination.setText(destination.getText() + "5");
             }
         });
         numberButtons[6] = (ImageButton) findViewById(R.id.button6_d);
         numberButtons[6].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText(pin.getText() + "6");
+                destination.setText(destination.getText() + "6");
             }
         });
         numberButtons[7] = (ImageButton) findViewById(R.id.button7_d);
         numberButtons[7].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText(pin.getText() + "7");
+                destination.setText(destination.getText() + "7");
             }
         });
         numberButtons[8] = (ImageButton) findViewById(R.id.button8_d);
         numberButtons[8].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText(pin.getText() + "8");
+                destination.setText(destination.getText() + "8");
             }
         });
         numberButtons[9] = (ImageButton) findViewById(R.id.button9_d);
         numberButtons[9].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pin.setText(pin.getText() + "9");
+                destination.setText(destination.getText() + "9");
             }
         });
     }
 
-    private void success() {
+    private void success(String destination, String username, int pin, String voice) {
+        Bundle bundle = new Bundle();
+        bundle.putString("Destination", destination);
+        bundle.putString("Username", username);
+        bundle.putInt("Pin", pin);
+        bundle.putString("Voice", voice);
         Intent intent = new Intent(this, EnterAmount.class);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 }

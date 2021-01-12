@@ -22,9 +22,12 @@ import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
 
 public class Login extends AppCompatActivity {
-    public static final String PREFS_NAME = "LoginPrefFile";
-    private static final String PREF_USERNAME = "username";
-    private static final String PREF_PASSWORD = "password";
+    public static final String PREFS_NAME = "LoginProfile";
+    public static final String PREF_USERNAME = "username";
+    public static final String PREF_PASSWORD = "password";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,19 +89,20 @@ public class Login extends AppCompatActivity {
                 }
             });
 
-            ImageButton signupButton = (ImageButton) findViewById(R.id.btnSignIn);
-            signupButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openRegister();
-                }
-            });
+
         }
         else
         {
             startMainMenuActivity(username);
         }
 
+        ImageButton signupButton = (ImageButton) findViewById(R.id.btnSignIn);
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRegister();
+            }
+        });
     }
 
     private void openRegister() {
@@ -110,5 +114,6 @@ public class Login extends AppCompatActivity {
         Intent intent = new Intent(this, MainMenu.class);
         intent.putExtra("username", username);
         startActivity(intent);
+        finish();
     }
 }

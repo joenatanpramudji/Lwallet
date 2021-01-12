@@ -54,7 +54,15 @@ public class PinConfirmation extends AppCompatActivity {
                             Log.d("Top Up Value is : ", statusIntent.get("TopUp_Value").toString());
                             Log.d("Top Up Value is : ", statusIntent.get("Username").toString());
                             //cn.testTopup();
-                            cn.topUp((double)statusIntent.get("TopUp_Value"), statusIntent.get("Username").toString());
+                            cn.topUp((double)statusIntent.get("TopUp_Value"), statusIntent.get("Username").toString(), statusIntent.get("Card_Number").toString(), statusIntent.get("CCV").toString(), statusIntent.get("Expiry_Date").toString());
+                        }
+                        else if(statusIntent.get("Status").toString().equals("Transfer"))
+                        {
+                            //Write Data (Min)
+
+                            cn.transfer((double)statusIntent.get("Transfer_Amount"), statusIntent.get("Username").toString(), statusIntent.get("Destination").toString());
+
+
                         }
                         else if(statusIntent.get("Status").toString().equals("Pay"))
                         {
