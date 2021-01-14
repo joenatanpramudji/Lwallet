@@ -27,7 +27,6 @@ public class Login extends AppCompatActivity {
     public static final String PREF_PASSWORD = "password";
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +38,6 @@ public class Login extends AppCompatActivity {
 
         if(username == null || password == null)
         {
-
 
             Connection cn = new Connection();
             cn.loginData();

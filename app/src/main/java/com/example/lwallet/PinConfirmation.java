@@ -43,8 +43,8 @@ public class PinConfirmation extends AppCompatActivity {
                     intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                     intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "NEED TO SPEAK");
 
-
-                    try {
+                    startActivityForResult(intent, REQ_CODE);
+                    /*try {
 
                         Log.d("Check status intent", statusIntent.get("Status").toString());
                         if (statusIntent.get("Status").toString().equals("TopUp"))
@@ -54,13 +54,28 @@ public class PinConfirmation extends AppCompatActivity {
                             Log.d("Top Up Value is : ", statusIntent.get("TopUp_Value").toString());
                             Log.d("Top Up Value is : ", statusIntent.get("Username").toString());
                             //cn.testTopup();
-                            cn.topUp((double)statusIntent.get("TopUp_Value"), statusIntent.get("Username").toString(), statusIntent.get("Card_Number").toString(), statusIntent.get("CCV").toString(), statusIntent.get("Expiry_Date").toString());
+
+
                         }
                         else if(statusIntent.get("Status").toString().equals("Transfer"))
                         {
                             //Write Data (Min)
 
-                            cn.transfer((double)statusIntent.get("Transfer_Amount"), statusIntent.get("Username").toString(), statusIntent.get("Destination").toString());
+                            //cn.transfer((double)statusIntent.get("Transfer_Amount"), statusIntent.get("Username").toString(), statusIntent.get("Destination").toString());
+
+//                            cn.getDestination(statusIntent.get("Username").toString(), statusIntent.get("Destination").toString(), new Connection.DestinationCallback() {
+//                                @Override
+//                                public void onCallback(String destination) {
+//                                    for(int i = 0; i < cn.destinationKey.size(); i++)
+//                                    {
+//                                        if(statusIntent.get("Destination").toString().equals(destination))
+//                                        {
+//                                            cn.transfer((double)statusIntent.get("Transfer_Amount"), statusIntent.get("Username").toString(), i);
+//                                        }
+//                                    }
+//                                }
+//                            });
+                            startActivityForResult(intent, REQ_CODE);
 
 
                         }
@@ -69,14 +84,14 @@ public class PinConfirmation extends AppCompatActivity {
 
                             //Write Data (Min)
                         }
-                        startActivityForResult(intent, REQ_CODE);
+
                     }catch (ActivityNotFoundException a)
                     {
                         Toast.makeText(getApplicationContext(),
                                 "Sorry your device not supported",
                                 Toast.LENGTH_SHORT).show();
                     }
-
+*/
 
                 }
                 else if(pinCode.getText().toString().equals(""))
@@ -186,8 +201,20 @@ public class PinConfirmation extends AppCompatActivity {
             case REQ_CODE: {
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    if(result.get(0).toString().equalsIgnoreCase(intent.getStringExtra("Voice")))
+                    Connection cn = new Connection();
+                    if(result.get(0).toString().equalsIgnoreCase(intent.getStringExtra("Voice")) && intent.getStringExtra("Status").toString().equals("TopUp"))
                     {
+
+                        cn.topUp((double)intent.getDoubleExtra("TopUp_Value", 0), intent.getStringExtra("Username"), intent.getStringExtra("Card_Number"), intent.getStringExtra("CCV"), intent.getStringExtra("Expiry_Date"));
+                        success();
+                    }else if(result.get(0).toString().equalsIgnoreCase(intent.getStringExtra("Voice")) && intent.getStringExtra("Status").toString().equals("Transfer"))
+                    {
+                        cn.readtransfer((double) intent.getDoubleExtra("Transfer_Amount", 0), intent.getStringExtra("Username"), intent.getStringExtra("Destination"), new Connection.TransferCallback() {
+                            @Override
+                            public void onCallback(double destinationCash) {
+                                cn.transfer((double) intent.getDoubleExtra("Transfer_Amount", 0), intent.getStringExtra("Username"), intent.getStringExtra("Destination"), destinationCash);
+                            }
+                        });
                         success();
                     }
                     else
