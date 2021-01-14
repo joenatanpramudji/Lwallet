@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1061622879543",
+    "project_id": "l-wallet-d9b2e",
+    "storage_bucket": "l-wallet-d9b2e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1061622879543:android:d2ecfa3b2d464c33eaf6b2",
+        "android_client_info": {
+          "package_name": "com.example.lwallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1061622879543-gimj5q10q8gkh3128t732mt8a7tu9ih7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp12UJIlJE4dEJy87nBp2yIELF7f0pAhs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1061622879543-gimj5q10q8gkh3128t732mt8a7tu9ih7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
