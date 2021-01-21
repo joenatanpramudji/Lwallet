@@ -90,7 +90,7 @@
         app:srcCompat="@drawable/plus_navigation_bar__white_" />
 
     <TextView
-        android:id="@+id/textView33"
+        android:id="@+id/profilePoints"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -100,10 +100,10 @@
         android:textColor="@color/main"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="@+id/imageView28"
-        app:layout_constraintTop_toBottomOf="@+id/textView32" />
+        app:layout_constraintTop_toBottomOf="@+id/profileCash" />
 
     <TextView
-        android:id="@+id/textView34"
+        android:id="@+id/accountUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -112,7 +112,7 @@
         android:textColor="@color/main"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/imageView29"
-        app:layout_constraintTop_toBottomOf="@+id/textView33" />
+        app:layout_constraintTop_toBottomOf="@+id/profilePoints" />
 
     <TextView
         android:id="@+id/textView35"
@@ -125,10 +125,10 @@
         android:textColor="@color/main"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/imageView29"
-        app:layout_constraintTop_toBottomOf="@+id/textView34" />
+        app:layout_constraintTop_toBottomOf="@+id/accountUsername" />
 
     <TextView
-        android:id="@+id/textView32"
+        android:id="@+id/profileCash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -147,7 +147,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="52dp"
         app:layout_constraintStart_toStartOf="@+id/imageView29"
-        app:layout_constraintTop_toBottomOf="@+id/textView34"
+        app:layout_constraintTop_toBottomOf="@+id/accountUsername"
         app:srcCompat="@drawable/light_blue_bg_info_3" />
 
     <ImageView

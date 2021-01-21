@@ -21,11 +21,11 @@ import java.util.Random;
 
 import static android.content.ContentValues.TAG;
 
-public class Connection {
+public class Connection { //Class for connection with Firebase
     //String correctPassword;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference accRef = database.getReference("Accounts");
+    DatabaseReference accRef = database.getReference("Accounts" /*This string is a reference to the firebase key*/); // Initializing the firebase reference
     DatabaseReference userRef;
     DatabaseReference destinationRef;
     DatabaseReference historyCounting;
@@ -52,10 +52,10 @@ public class Connection {
 //        inArrr.add(status);
 //        oArrr.add(inArrr);
 //    }
-        public void loginData()
+        public void loginData() // This function is used for Login
         {
 
-            accRef.addValueEventListener(new ValueEventListener() {
+            accRef.addValueEventListener(new ValueEventListener() { //The reference needs a listener to listen to data changes
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // This method is called once with the initial value and again
@@ -63,12 +63,12 @@ public class Connection {
                     //value[0] = dataSnapshot.getValue(String.class);
                     for(DataSnapshot postSnapshot : dataSnapshot.getChildren())
                     {
-                        Map<String, Object> map = (Map<String, Object>) postSnapshot.getValue();
+                        Map<String, Object> map = (Map<String, Object>) postSnapshot.getValue(); //The datasnapshot will be mapped like this in order to be retrieved
 //                       String docRef = postSnapshot.getRef();
 //                       passwordReference.add();
-                        String docRef = postSnapshot.getKey();
+                        String docRef = postSnapshot.getKey(); //Getkey is used to get the Key from the reference. Example Key = "Account"
                         usernameReference.add("" + docRef);
-                        passwordReference.add("" + map.get("Password"));
+                        passwordReference.add("" + map.get("Password")); //Adding the username and password into a list for checking
                         /*Log.d(TAG, "Name is " + docRef);
                         Log.d(TAG, "Value is " + map);
                         Log.d(TAG, "Username Array value is "+ usernameReference.get(0));
@@ -87,9 +87,9 @@ public class Connection {
 
         }
 
-        public void readData(String username, ReadCallback readCallBack)
+        public void readData(String username, ReadCallback readCallBack) // THis function is to read the data stored in firebase, essentially it is similar like the login function
         {
-           userRef = accRef.child(username);
+           userRef = accRef.child(username); // THe username parameter will be used for the Key
            userRef.addValueEventListener(new ValueEventListener() {
                @Override
                public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -99,7 +99,7 @@ public class Connection {
                    pin = Integer.parseInt(map.get("Pin").toString());
                    voice = map.get("Voice").toString();
 
-                   readCallBack.onCallback(cash, points);
+                   readCallBack.onCallback(cash, points); // An interface is used since onDataChange is an asynchronous function. The value may only be retrieved after the onCreate method. So we use a callback function
                }
 
                @Override
@@ -157,14 +157,14 @@ public class Connection {
            void onCallback(double destinationCash);
        }
 
-       public void topUp(double value, String username, String cardNumber, String ccv, String expDate/*, TopupCallBack topupCallBack*/)
+       public void topUp(double value, String username, String cardNumber, String ccv, String expDate/*, TopupCallBack topupCallBack*/) // This function is used for Top Up
        {
            userRef = accRef.child(username);
            Log.d(TAG, userRef.child("Cash").get().toString());
            userRef.child("Cash").setValue(value + cash);
            userRef.child("Credit Card").child("Number").setValue(cardNumber);
            userRef.child("Credit Card").child("CCV").setValue(ccv);
-           userRef.child("Credit Card").child("ExpDate").setValue(expDate);
+           userRef.child("Credit Card").child("ExpDate").setValue(expDate); // Setvalue is to set the value of the database according to the key
        }
        ArrayList<String> destinationKey = new ArrayList<>();
 
@@ -173,7 +173,7 @@ public class Connection {
 //           void onCallback(String destination);
 //       }
 
-        public void transfer(double value, String username, String destination, double destinationCash)
+        public void transfer(double value, String username, String destination, double destinationCash) // Function to transfer funds from one account to another
         {
 //            readtransfer(value, username, destination, new TransferCallback() {
 //                @Override
@@ -182,10 +182,10 @@ public class Connection {
 //                }
 //            });
 
-            accRef.child(destination).child("Cash").setValue(destinationCash + value); //Still got error
+            accRef.child(destination).child("Cash").setValue(destinationCash + value); //THis is used to add the cash into the destination account
         }
 
-       public void readtransfer(double value, String username, String destination , TransferCallback transferCallback)
+       public void readtransfer(double value, String username, String destination , TransferCallback transferCallback) //This is a method used together with transfer method to listen to the cash value in firebase
        {
            userRef = accRef.child(username);
            userRef.child("Cash").setValue(cash - value);
@@ -195,7 +195,7 @@ public class Connection {
                public void onDataChange(@NonNull DataSnapshot snapshot) {
                    Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
                    destinationCash = Double.parseDouble(map.get("Cash").toString());
-                   transferCallback.onCallback(destinationCash);
+                   transferCallback.onCallback(destinationCash); // Another callback function
                }
 
                @Override
@@ -240,7 +240,7 @@ public class Connection {
            Log.d("Destination key is ", destinationKey.toString());
        }
 
-       public void register(String username, String email, String password, String voice)
+       public void register(String username, String email, String password, String voice) //Registration function
        {
             accRef.child(username).child("Email").setValue(email);
             accRef.child(username).child("Password").setValue(password);
@@ -254,12 +254,12 @@ public class Connection {
 
        }
 
-       public void register(String username, String voice)
+       public void register(String username, String voice) // This is to register the voice
        {
            accRef.child(username).child("Voice").setValue(voice);
        }
 
-       public void setHistory(String username, String status, String date, double amount, int count, String destination)
+       public void setHistory(String username, String status, String date, double amount, int count, String destination) // THis is to set the history for transfer
        {
            accRef.child(username).child("History").child(count + "").child("Status").setValue(status);
            accRef.child(username).child("History").child(count + "").child("Date").setValue(date);
@@ -267,7 +267,7 @@ public class Connection {
            accRef.child(username).child("History").child(count + "").child("Destination").setValue(destination);
        }
 
-    public void setHistory(String username, String status, String date, double amount, int count)
+    public void setHistory(String username, String status, String date, double amount, int count)// THis is to set the history for for topup
     {
         accRef.child(username).child("History").child(count + "").child("Status").setValue(status);
         accRef.child(username).child("History").child(count + "").child("Date").setValue(date);
@@ -279,7 +279,7 @@ public class Connection {
         void onCallback(ArrayList<String[]> oArr);
     }
     String[] inArrr = new String[3];
-       public void getHistory(String username, HistoryCallback historyCallback)
+       public void getHistory(String username, HistoryCallback historyCallback) // THis function is to get the history
        {
            userRef = accRef.child(username);
            historyCounting = userRef.child("History");

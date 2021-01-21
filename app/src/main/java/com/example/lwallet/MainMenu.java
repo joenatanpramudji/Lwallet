@@ -106,7 +106,7 @@ public class MainMenu extends AppCompatActivity {
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openProfile();
+                openProfile(intent.getStringExtra("username"));
             }
         });
 
@@ -161,8 +161,9 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void openProfile() {
+    private void openProfile(String username) {
         Intent intent = new Intent(this, Profile.class);
+        intent.putExtra("Username", username);
         startActivity(intent);
     }
 
