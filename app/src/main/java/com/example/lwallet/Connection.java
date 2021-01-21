@@ -2,6 +2,7 @@ package com.example.lwallet;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
@@ -27,6 +28,8 @@ public class Connection {
     DatabaseReference accRef = database.getReference("Accounts");
     DatabaseReference userRef;
     DatabaseReference destinationRef;
+    DatabaseReference historyCounting;
+    DatabaseReference historyRef;
    // DatabaseReference cashRef;
 
     ArrayList<String> usernameReference = new ArrayList<>();
@@ -39,6 +42,16 @@ public class Connection {
     public static int pin;
     public static String voice;
     public static double destinationCash;
+
+    ArrayList<String[]> oArrr = new ArrayList<>();
+
+//    public void HistoryArray(String amount, String date, String status) //Something is wrong here
+//    {
+//        inArrr.add(amount);
+//        inArrr.add(date);
+//        inArrr.add(status);
+//        oArrr.add(inArrr);
+//    }
         public void loginData()
         {
 
@@ -85,6 +98,7 @@ public class Connection {
                    points = Double.parseDouble(map.get("Points").toString());
                    pin = Integer.parseInt(map.get("Pin").toString());
                    voice = map.get("Voice").toString();
+
                    readCallBack.onCallback(cash, points);
                }
 
@@ -93,6 +107,41 @@ public class Connection {
                    Log.w(TAG, "Failed to read value.", error.toException());
                }
            });
+
+
+
+
+//           historyCounting.addValueEventListener(new ValueEventListener() {
+//               @Override
+//               public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                   for(int i = 0; i < snapshot.getChildrenCount(); i++)
+//                   {
+//                       historyRef = historyCounting.child("" + i);
+//                       historyRef.addValueEventListener(new ValueEventListener() {
+//                           @Override
+//                           public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                               Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+//                               //HistoryArray(map.get("Amount").toString(), map.get("Date").toString(), map.get("Status").toString());
+//                               inArrr.add(map.get("Amount").toString());
+//                               inArrr.add(map.get("Date").toString());
+//                               inArrr.add(map.get("Status").toString()); //GOT ERROR
+//                               oArrr.add(inArrr);
+//                           }
+//
+//                           @Override
+//                           public void onCancelled(@NonNull DatabaseError error) {
+//
+//                           }
+//                       });
+//                   }
+//               }
+//
+//               @Override
+//               public void onCancelled(@NonNull DatabaseError error) {
+//
+//               }
+//           });
+
            Log.d(TAG, "Cash is : " + cash);
            Log.d(TAG, "Points is : " + points);
 
@@ -208,6 +257,54 @@ public class Connection {
        public void register(String username, String voice)
        {
            accRef.child(username).child("Voice").setValue(voice);
+       }
+
+       public void setHistory(String username, String status, String date, double amount, int count, String destination)
+       {
+           accRef.child(username).child("History").child(count + "").child("Status").setValue(status);
+           accRef.child(username).child("History").child(count + "").child("Date").setValue(date);
+           accRef.child(username).child("History").child(count + "").child("Amount").setValue(amount);
+           accRef.child(username).child("History").child(count + "").child("Destination").setValue(destination);
+       }
+
+    public void setHistory(String username, String status, String date, double amount, int count)
+    {
+        accRef.child(username).child("History").child(count + "").child("Status").setValue(status);
+        accRef.child(username).child("History").child(count + "").child("Date").setValue(date);
+        accRef.child(username).child("History").child(count + "").child("Amount").setValue(amount);
+    }
+
+    public interface HistoryCallback
+    {
+        void onCallback(ArrayList<String[]> oArr);
+    }
+    String[] inArrr = new String[3];
+       public void getHistory(String username, HistoryCallback historyCallback)
+       {
+           userRef = accRef.child(username);
+           historyCounting = userRef.child("History");
+           historyCounting.addValueEventListener(new ValueEventListener() {
+               @Override
+               public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                   for(DataSnapshot postSnapshot : snapshot.getChildren())
+                   {
+
+                       Map<String, Object> map = (Map<String, Object>) postSnapshot.getValue();
+                       inArrr[0] = "" + map.get("Amount");
+                       inArrr[1] = "" + map.get("Date");
+                       inArrr[2] = "" + map.get("Status");
+                       oArrr.add(inArrr);
+                       historyCallback.onCallback(oArrr);
+//                       Log.d("OUTER ARRAY IS ", oArrr.toString());
+                   }
+               }
+
+               @Override
+               public void onCancelled(@NonNull DatabaseError error) {
+
+               }
+           });
        }
 
 }

@@ -1,16 +1,21 @@
 package com.example.lwallet;
 
 import android.content.ClipData;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +58,7 @@ public class historyListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -60,18 +66,61 @@ public class historyListFragment extends Fragment {
     }
     ListView myListView;
     String[] items;
+    Connection cn = new Connection();
+    ArrayList<String> placeHolder = new ArrayList<String>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_history_list, container, false);
 
+        //ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(getContext(), )
+
         Resources res = rootView.getResources();
         myListView = (ListView) rootView.findViewById(R.id.historyView);
-        items = res.getStringArray((R.array.historyItems));
 
-        myListView.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.history_list_detail, items));
-       // myListView.setAdapter(new ArrayAdapter<ClipData.Item>(getContext(), R.layout.history_list_detail ));
+
+        cn.getHistory(getActivity().getIntent().getStringExtra("Username"), new Connection.HistoryCallback() {
+            @Override
+            public void onCallback(ArrayList<String[]> oArr) {
+                for(int i = 0; i < oArr.size();i++)
+                {
+                    placeHolder.add("Amount : " + oArr.get(i)[0] + "\n" + "Date : " +  oArr.get(i)[1] + "\n" + "Status : " +  oArr.get(i)[2]);
+                    Log.d("IN ARR IS", cn.inArrr[0] + cn.inArrr[1] + cn.inArrr[2]);
+                    Log.d("ORR is : ", oArr.get(i)[0] + "\n" +  oArr.get(i)[1] + "\n" +  oArr.get(i)[2]); // Messy here, something is wrong
+
+                }
+                //Log.d("OUTER ARRAY IS ", oArr + ""); // Retrieve data
+                myListView.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.history_list_detail, placeHolder));
+            }
+        });
+
+
+//        placeHolder.add(cn.oArrr.get(0).get(0) + "\n" +  cn.oArrr.get(0).get(0 + 1) + "\n" +  cn.oArrr.get(0).get(0+2));
+
+        //Intent intent = getActivity().getIntent();
+
+
+
+//        Log.d("IN ARRAY IS", cn.inArrr.get(1));
+        //Log.d("IN ARRAY IS", cn.oArrr.get(1).get(1));
+
+
+
+
+
+
+
+//        items = new String[placeHolder.size()];
+////        items = res.getStringArray(R.array.historyItems);
+//
+//        for(int i = 0; i < items.length; i++)
+//        {
+//            items[i] = placeHolder.get(i);
+//        }
+
+//        myListView.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.history_list_detail, items));
+
 
         return rootView;
     }

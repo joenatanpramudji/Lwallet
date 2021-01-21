@@ -7,6 +7,8 @@
     android:backgroundTint="#00FFFFFF"
     tools:context=".MainMenu">
 
+
+
     <include
         android:id="@+id/include"
         layout="@layout/mainmenu_toolbar"

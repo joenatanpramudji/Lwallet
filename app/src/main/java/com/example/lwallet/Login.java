@@ -38,7 +38,6 @@ public class Login extends AppCompatActivity {
 
         if(username == null || password == null)
         {
-
             Connection cn = new Connection();
             cn.loginData();
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
@@ -17,16 +18,28 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class PinConfirmation extends AppCompatActivity {
     private final int REQ_CODE = 100;
     //TextView textView;
 
+    public static final String PREFS_NAME = "HistoryCount";
+    public static final String PREF_HISTORYCOUNT = "0";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin_confirmation);
+
+        //SharedPreferences pref = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        //int historyCount = pref.getInt(PREF_HISTORY_COUNT, 0);
+
+
         TextView pin = (TextView) findViewById(R.id.pinCode);
         Connection cn = new Connection();
         ImageButton nextButton = (ImageButton) findViewById(R.id.nextButtonC);
@@ -191,8 +204,49 @@ public class PinConfirmation extends AppCompatActivity {
         Bundle statusIntent = getIntent().getExtras();
         Intent intent = new Intent(this, Success.class);
         intent.putExtra("Username", statusIntent.get("Username").toString());
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        int count = settings.getInt("COUNT", 0);
+
+
+
+        Log.d("Count is ","" + count);
+
+        if(statusIntent.getString("Status").equals("TopUp"))
+        {
+
+            intent.putExtra("Amount", statusIntent.getDouble("TopUp_Value"));
+            intent.putExtra("Status", "Top Up");
+            intent.putExtra("Date", new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime()));
+
+            new Connection().setHistory(statusIntent.get("Username").toString(),
+                    "Top Up", new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime()),
+                    statusIntent.getDouble("TopUp_Value"),count);
+        }
+        else if(statusIntent.getString("Status").equals("Transfer"))
+        {
+
+            intent.putExtra("Amount", statusIntent.getDouble("Transfer_Amount"));
+            intent.putExtra("Status", "Transfer");
+            intent.putExtra("Date", new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime()));
+
+            new Connection().setHistory(statusIntent.get("Username").toString(),
+                    "Transfer", new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime()),
+                    statusIntent.getDouble("Transfer_Amount"), count, statusIntent.getString("Destination"));
+        }
+        count += 1;
+        editor.putInt("COUNT", count);
+        editor.commit();
+        //getSharedPreferences(PREF_HISTORYCOUNT, MODE_PRIVATE).edit().putInt(PREF_HISTORYCOUNT, count).commit();
         startActivity(intent);
     }
+
+    public void incrementCounter()
+    {
+
+    }
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
