@@ -43,6 +43,7 @@ public class Connection { //Class for connection with Firebase
     public static String voice;
     public static double destinationCash;
 
+    
     ArrayList<String[]> oArrr = new ArrayList<>();
 
 //    public void HistoryArray(String amount, String date, String status) //Something is wrong here
