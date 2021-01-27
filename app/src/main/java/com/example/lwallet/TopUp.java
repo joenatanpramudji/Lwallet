@@ -138,6 +138,7 @@ public class TopUp extends AppCompatActivity {
         b.putString("CCV", ccv);
         b.putString("Expiry_Date", expiryDate);
         b.putInt("Pin", pin);
+        new Connection().setTokenRequest(username);
         intent.putExtras(b);
         startActivity(intent);
     }

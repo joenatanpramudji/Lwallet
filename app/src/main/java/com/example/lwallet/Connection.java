@@ -43,7 +43,7 @@ public class Connection { //Class for connection with Firebase
     public static String voice;
     public static double destinationCash;
 
-    
+
     ArrayList<String[]> oArrr = new ArrayList<>();
 
 //    public void HistoryArray(String amount, String date, String status) //Something is wrong here
@@ -158,7 +158,7 @@ public class Connection { //Class for connection with Firebase
            void onCallback(double destinationCash);
        }
 
-       public void topUp(double value, String username, String cardNumber, String ccv, String expDate/*, TopupCallBack topupCallBack*/) // This function is used for Top Up
+       public void topUp(double value, String username, String cardNumber, String ccv, String expDate/*, boolean tokenRequest*//*, TopupCallBack topupCallBack*/) // This function is used for Top Up
        {
            userRef = accRef.child(username);
            Log.d(TAG, userRef.child("Cash").get().toString());
@@ -166,6 +166,7 @@ public class Connection { //Class for connection with Firebase
            userRef.child("Credit Card").child("Number").setValue(cardNumber);
            userRef.child("Credit Card").child("CCV").setValue(ccv);
            userRef.child("Credit Card").child("ExpDate").setValue(expDate); // Setvalue is to set the value of the database according to the key
+           //userRef.child("Credit Card").child("TokenRequest").setValue(tokenRequest);
        }
        ArrayList<String> destinationKey = new ArrayList<>();
 
@@ -244,6 +245,7 @@ public class Connection { //Class for connection with Firebase
        public void register(String username, String email, String password, String voice) //Registration function
        {
             accRef.child(username).child("Email").setValue(email);
+            //Encryption function
             accRef.child(username).child("Password").setValue(password);
             accRef.child(username).child("Key").setValue(new Random().nextInt(90000) + 10000);
             accRef.child(username).child("Cash").setValue(0);
@@ -307,5 +309,24 @@ public class Connection { //Class for connection with Firebase
                }
            });
        }
+
+       public void setTokenRequest(String username)
+       {
+            userRef = accRef.child(username);
+//            userRef.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+//                    String token = map.get("Key").toString();
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
+//            });
+           userRef.child("Credit Card").child("TokenRequest").setValue(true);
+       }
+
 
 }

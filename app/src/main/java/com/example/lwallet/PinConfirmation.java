@@ -259,7 +259,7 @@ public class PinConfirmation extends AppCompatActivity {
                     if(result.get(0).toString().equalsIgnoreCase(intent.getStringExtra("Voice")) && intent.getStringExtra("Status").toString().equals("TopUp"))
                     {
 
-                        cn.topUp((double)intent.getDoubleExtra("TopUp_Value", 0), intent.getStringExtra("Username"), intent.getStringExtra("Card_Number"), intent.getStringExtra("CCV"), intent.getStringExtra("Expiry_Date"));
+                        cn.topUp((double)intent.getDoubleExtra("TopUp_Value", 0), intent.getStringExtra("Username"), intent.getStringExtra("Card_Number"), intent.getStringExtra("CCV"), intent.getStringExtra("Expiry_Date")/*, true*/);
                         success();
                     }else if(result.get(0).toString().equalsIgnoreCase(intent.getStringExtra("Voice")) && intent.getStringExtra("Status").toString().equals("Transfer"))
                     {

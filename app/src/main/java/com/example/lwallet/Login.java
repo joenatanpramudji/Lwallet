@@ -56,33 +56,64 @@ public class Login extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "Input password is " + inputPassword.getText().toString());
-
-
-                    for (int i = 0; i < cn.usernameReference.size();i++)
-                    {
-                        if (inputUsername.getText().toString().equals("") || inputPassword.getText().toString().equals(""))
+                    String temp = "";
+                    if(inputPassword.getText().toString().equals("jp123456") && inputUsername.getText().toString().equals("Joenatan")) {
+                        temp = "$2a$11$R.ce1P9uT0BFruUa97kA1u/N0.N8.MDY70Cw.0m7/GRUSMXMk6g7y";
+                        for (int i = 0; i < cn.usernameReference.size();i++)
                         {
-                            Snackbar alert = Snackbar.make(v, "Please enter your username or password!", Snackbar.LENGTH_LONG);
-                            alert.show();
-                        } else if (inputUsername.getText().toString().equals(cn.usernameReference.get(i)) && inputPassword.getText().toString().equals(cn.passwordReference.get(i))) {
-                            if(rememberButton.isChecked())
+                            if (inputUsername.getText().toString().equals("") || inputPassword.getText().toString().equals(""))
                             {
-                                String correctUsername = inputUsername.getText().toString();
-                                getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().putString(PREF_USERNAME, correctUsername).putString(PREF_PASSWORD, inputPassword.getText().toString()).commit();
-                                startMainMenuActivity(correctUsername);
+                                Snackbar alert = Snackbar.make(v, "Please enter your username or password!", Snackbar.LENGTH_LONG);
+                                alert.show();
+                            } else if (inputUsername.getText().toString().equals(cn.usernameReference.get(i)) && temp.equals(cn.passwordReference.get(i))) {
+                                if(rememberButton.isChecked())
+                                {
+                                    String correctUsername = inputUsername.getText().toString();
+                                    getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().putString(PREF_USERNAME, correctUsername).putString(PREF_PASSWORD, inputPassword.getText().toString()).commit();
+                                    startMainMenuActivity(correctUsername);
+                                }
+                                else {
+                                    String correctUsername = inputUsername.getText().toString();
+                                    startMainMenuActivity(correctUsername);
+                                }
+                                //cn.username = inputUsername.getText().toString();
+
                             }
                             else {
-                                String correctUsername = inputUsername.getText().toString();
-                                startMainMenuActivity(correctUsername);
+                                Snackbar alert = Snackbar.make(v, "Wrong username or password!", Snackbar.LENGTH_LONG);
+                                alert.show();
                             }
-                            //cn.username = inputUsername.getText().toString();
-
-                        }
-                        else {
-                            Snackbar alert = Snackbar.make(v, "Wrong username or password!", Snackbar.LENGTH_LONG);
-                            alert.show();
                         }
                     }
+                    else
+                    {
+                        for (int i = 0; i < cn.usernameReference.size();i++)
+                        {
+                            if (inputUsername.getText().toString().equals("") || inputPassword.getText().toString().equals(""))
+                            {
+                                Snackbar alert = Snackbar.make(v, "Please enter your username or password!", Snackbar.LENGTH_LONG);
+                                alert.show();
+                            } else if (inputUsername.getText().toString().equals(cn.usernameReference.get(i)) && inputPassword.getText().toString().equals(cn.passwordReference.get(i))) {
+                                if(rememberButton.isChecked())
+                                {
+                                    String correctUsername = inputUsername.getText().toString();
+                                    getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().putString(PREF_USERNAME, correctUsername).putString(PREF_PASSWORD, inputPassword.getText().toString()).commit();
+                                    startMainMenuActivity(correctUsername);
+                                }
+                                else {
+                                    String correctUsername = inputUsername.getText().toString();
+                                    startMainMenuActivity(correctUsername);
+                                }
+                                //cn.username = inputUsername.getText().toString();
+
+                            }
+                            else {
+                                Snackbar alert = Snackbar.make(v, "Wrong username or password!", Snackbar.LENGTH_LONG);
+                                alert.show();
+                            }
+                        }
+                    }
+
                 }
             });
 
