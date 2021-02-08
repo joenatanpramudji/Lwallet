@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
@@ -47,11 +48,18 @@ public class MainMenu extends AppCompatActivity {
 //    private static final String SAVED_INSTANCE_URI = "uri";
 //    private static final String SAVED_INSTANCE_RESULT = "result";
 
+    public static final String PREFS_NAME = "statusProfile";
+    public static final String PREF_STATUS = "status";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        SharedPreferences pref = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean status = pref.getBoolean(PREF_STATUS, false);
 
         Intent intent = getIntent();
 
@@ -60,13 +68,35 @@ public class MainMenu extends AppCompatActivity {
 
         TextView displayPoints = (TextView) findViewById(R.id.displayPoints);
 
+        TextView displaySecurity = (TextView) findViewById(R.id.displaySecurity);
+
         cn.readData(intent.getStringExtra("username"), new Connection.ReadCallback() {
             @Override
-            public void onCallback(double valueCash, double valueDouble) {
+            public void onCallback(double valueCash, double valueDouble, int securityLevel) {
                 displayCash.setText("RM " + Integer.toString((int)valueCash));
                 displayPoints.setText(Integer.toString((int)valueDouble) + " pts");
+                displaySecurity.setText("Security : Lv " + securityLevel);
+                if(securityLevel <= 3 && securityLevel > 0 && status == false)
+                {
+                    getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().putBoolean(PREF_STATUS, true).commit();
+                    logout();
+
+                }
+                else if(securityLevel > 3)
+                {
+                    logout();
+
+                    cn.setStatus(intent.getStringExtra("username"));
+                }
+                else if(securityLevel <= 3 && securityLevel > 0 && status == true)
+                {
+                    getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().putBoolean(PREF_STATUS, false).commit();
+                }
+
             }
         });
+
+
 
 
 //        cn.getHistory(intent.getStringExtra("username"));

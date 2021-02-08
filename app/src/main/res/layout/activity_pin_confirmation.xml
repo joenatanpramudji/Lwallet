@@ -160,7 +160,7 @@
         android:backgroundTint="#00FFFFFF"
         android:ems="10"
         android:inputType="numberPassword"
-        android:maxLength="4"
+        android:maxLength="6"
         android:password="true"
         android:textAlignment="center"
         android:textColor="@color/white"

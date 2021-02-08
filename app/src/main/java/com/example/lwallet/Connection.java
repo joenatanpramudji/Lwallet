@@ -1,6 +1,7 @@
 package com.example.lwallet;
 
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -25,8 +26,11 @@ public class Connection { //Class for connection with Firebase
     //String correctPassword;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference accRef = database.getReference("Accounts" /*This string is a reference to the firebase key*/); // Initializing the firebase reference
     DatabaseReference userRef;
+    DatabaseReference accRef = database.getReference("Accounts" /*This string is a reference to the firebase key*/); // Initializing the firebase reference
+    DatabaseReference bankRef = database.getReference("Bank" /*This string is a reference to the bank firebase key*/); // Initializing the firebase reference
+
+    DatabaseReference cardRef;
     DatabaseReference destinationRef;
     DatabaseReference historyCounting;
     DatabaseReference historyRef;
@@ -41,7 +45,11 @@ public class Connection { //Class for connection with Firebase
     public static double points;
     public static int pin;
     public static String voice;
+    public static int securityLevel;
+    public static boolean activeStatus = true;
     public static double destinationCash;
+
+    public static boolean token;
 
 
     ArrayList<String[]> oArrr = new ArrayList<>();
@@ -97,10 +105,20 @@ public class Connection { //Class for connection with Firebase
                    Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
                    cash = Double.parseDouble(map.get("Cash").toString());
                    points = Double.parseDouble(map.get("Points").toString());
-                   pin = Integer.parseInt(map.get("Pin").toString());
+                   //pin = Integer.parseInt(map.get("Pin").toString());
                    voice = map.get("Voice").toString();
+                   securityLevel = Integer.parseInt(map.get("Security Level").toString());
+                   if(map.get("Status").toString().equals("Active"))
+                   {
+                       activeStatus = true;
+                   }
+                   else
+                   {
+                       activeStatus = false;
+                   }
 
-                   readCallBack.onCallback(cash, points); // An interface is used since onDataChange is an asynchronous function. The value may only be retrieved after the onCreate method. So we use a callback function
+
+                   readCallBack.onCallback(cash, points, securityLevel); // An interface is used since onDataChange is an asynchronous function. The value may only be retrieved after the onCreate method. So we use a callback function
                }
 
                @Override
@@ -109,7 +127,18 @@ public class Connection { //Class for connection with Firebase
                }
            });
 
+        userRef.child("Credit Card").child("Token").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Object obj = snapshot.getValue();
+                pin = Integer.parseInt(obj.toString());
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
 //           historyCounting.addValueEventListener(new ValueEventListener() {
@@ -150,7 +179,7 @@ public class Connection { //Class for connection with Firebase
 
        public interface ReadCallback
        {
-           void onCallback(double valueCash, double valueDouble);
+           void onCallback(double valueCash, double valueDouble, int securityLevel);
        }
 
        public interface TransferCallback
@@ -158,15 +187,29 @@ public class Connection { //Class for connection with Firebase
            void onCallback(double destinationCash);
        }
 
-       public void topUp(double value, String username, String cardNumber, String ccv, String expDate/*, boolean tokenRequest*//*, TopupCallBack topupCallBack*/) // This function is used for Top Up
+       public void topUp(double value, String username, String cardNumber, String ccv, String expDate/*, boolean tokenRequest*//*, TopupCallBack topupCallBack*/, String token) // This function is used for Top Up
        {
            userRef = accRef.child(username);
+          // cardRef = bankRef.child("Joenatan");
            Log.d(TAG, userRef.child("Cash").get().toString());
            userRef.child("Cash").setValue(value + cash);
-           userRef.child("Credit Card").child("Number").setValue(cardNumber);
-           userRef.child("Credit Card").child("CCV").setValue(ccv);
-           userRef.child("Credit Card").child("ExpDate").setValue(expDate); // Setvalue is to set the value of the database according to the key
+          // userRef.child("Credit Card").child("Token").setValue(token);
+           // Setvalue is to set the value of the database according to the key
            //userRef.child("Credit Card").child("TokenRequest").setValue(tokenRequest);
+       }
+
+       public void updatePin(String pin)
+       {
+           userRef = accRef.child("Joenatan");
+           userRef.child("Credit Card").child("Token").setValue(pin);
+       }
+
+       public void saveCard(String cardNumber, String ccv, String expDate)
+       {
+           cardRef = bankRef.child("Joenatan");
+           cardRef.child("NumberReq").setValue(cardNumber);
+           cardRef.child("CVVReq").setValue(ccv);
+           cardRef.child("ExpDateReq").setValue(expDate);
        }
        ArrayList<String> destinationKey = new ArrayList<>();
 
@@ -244,9 +287,10 @@ public class Connection { //Class for connection with Firebase
 
        public void register(String username, String email, String password, String voice) //Registration function
        {
+           HashB hasb = new HashB();
             accRef.child(username).child("Email").setValue(email);
             //Encryption function
-            accRef.child(username).child("Password").setValue(password);
+            accRef.child(username).child("Password").setValue(hasb.bcryptHash(password));
             accRef.child(username).child("Key").setValue(new Random().nextInt(90000) + 10000);
             accRef.child(username).child("Cash").setValue(0);
             accRef.child(username).child("Points").setValue(500);
@@ -275,6 +319,11 @@ public class Connection { //Class for connection with Firebase
         accRef.child(username).child("History").child(count + "").child("Status").setValue(status);
         accRef.child(username).child("History").child(count + "").child("Date").setValue(date);
         accRef.child(username).child("History").child(count + "").child("Amount").setValue(amount);
+    }
+
+    public void setStatus(String username)
+    {
+        accRef.child(username).child("Status").setValue("Blocked");
     }
 
     public interface HistoryCallback
@@ -310,23 +359,47 @@ public class Connection { //Class for connection with Firebase
            });
        }
 
-       public void setTokenRequest(String username)
-       {
-            userRef = accRef.child(username);
-//            userRef.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                    Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
-//                    String token = map.get("Key").toString();
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error) {
-//
-//                }
-//            });
-           userRef.child("Credit Card").child("TokenRequest").setValue(true);
-       }
+//       public void setTokenRequest(String username) //This method is to set the token (Tokenization)
+//       {
+//            userRef = accRef.child(username);
+////            userRef.addValueEventListener(new ValueEventListener() {
+////                @Override
+////                public void onDataChange(@NonNull DataSnapshot snapshot) {
+////                    Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+////                    String token = map.get("Key").toString();
+////                }
+////
+////                @Override
+////                public void onCancelled(@NonNull DatabaseError error) {
+////
+////                }
+////            });
+//           userRef.child("Credit Card").child("TokenRequest").setValue(true);
+//       }
 
+
+
+       public void tokenApproval()
+       {
+
+           accRef.child("Joenatan").child("Credit Card").child("TokenApproval").addValueEventListener(new ValueEventListener() {
+               @Override
+               public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    Object data1 = snapshot.getValue();
+                    token = (Boolean) data1;
+                    Log.d("TOKEN STATUS", token + "");
+                   if(token == true)
+                   {
+
+                   }
+               }
+
+               @Override
+               public void onCancelled(@NonNull DatabaseError error) {
+
+               }
+           });
+       }
 
 }

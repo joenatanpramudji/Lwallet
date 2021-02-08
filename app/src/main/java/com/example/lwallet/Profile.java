@@ -20,7 +20,7 @@ public class Profile extends AppCompatActivity {
         Connection cn = new Connection();
         cn.readData(getIntent().getStringExtra("Username"), new Connection.ReadCallback() {
             @Override
-            public void onCallback(double valueCash, double valueDouble) {
+            public void onCallback(double valueCash, double valueDouble, int securityLevel) {
                 profileCash.setText("RM " + valueCash);
                 profilePoints.setText(valueDouble + " pts");
 
